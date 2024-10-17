@@ -1,7 +1,7 @@
 # This Makefile contains targets for building and running the KerkoApp Docker image.
 
 # Change IMAGE_NAME if you wish to build your own image.
-IMAGE_NAME := whiskyechobravo/kerkoapp
+IMAGE_NAME := admorelli/sirehp
 
 CONTAINER_NAME := kerkoapp
 MAKEFILE_DIR := $(dir $(CURDIR)/$(lastword $(MAKEFILE_LIST)))
