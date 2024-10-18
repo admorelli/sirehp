@@ -1,12 +1,12 @@
 # This Makefile contains targets for building and running the KerkoApp Docker image.
 
 # Change NAME if you wish to build your own image.
-NAME := admorelli/sirehp
+IMAGE_NAME := admorelli/sirehp
 
 CONTAINER_NAME := sirehp
 MAKEFILE_DIR := $(dir $(CURDIR)/$(lastword $(MAKEFILE_LIST)))
 HOST_PORT := 8080
-HOST_INSTANCE_PATH := $(MAKEFILE_DIR)instance
+HOST_INSTANCE_PATH := $(MAKEFILE_DIR)/instance
 HOST_DEV_LOG := /tmp/kerkoapp-dev-log
 
 SECRETS := $(HOST_INSTANCE_PATH)/.secrets.toml
@@ -20,17 +20,19 @@ DATA := $(HOST_INSTANCE_PATH)/kerko/index
 #
 
 help:
-	@echo "Commands for using KerkoApp with Docker:"
+	@echo "Commands for using SireHP with Docker:"
 	@echo "    make build"
-	@echo "        Build a KerkoApp Docker image locally."
+	@echo "        Build a SireHP Docker image locally."
 	@echo "    make clean_image"
-	@echo "        Remove the KerkoApp Docker image."
+	@echo "        Remove the SireHP Docker image."
 	@echo "    make clean_kerko"
 	@echo "        Run the 'kerko clean' command from within the KerkoApp Docker container."
 	@echo "    make publish"
-	@echo "        Publish the KerkoApp Docker image on DockerHub."
-	@echo "    make run"
-	@echo "        Run KerkoApp with Docker."
+	@echo "        Publish the SireHP Docker image on DockerHub."
+	@echo "    make run-dev"
+	@echo "        Run SireHP with Docker."
+	@echo "    make run-tunnel"
+	@echo "        Run SireHP on the web with Docker Compose."
 	@echo "    make shell"
 	@echo "        Start an interactive shell within the KerkoApp Docker container."
 	@echo "    make show_version"
@@ -47,8 +49,11 @@ help:
 # hence the use of the --privileged option below. For production use, you may want to verify whether
 # this option is really required for your system, or grant finer grained privileges. See
 # https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
-run: | $(DATA) $(SECRETS) $(CONFIG)
+run-dev: | $(DATA) $(SECRETS) $(CONFIG)
 	docker run --privileged --name $(CONTAINER_NAME) --rm -p $(HOST_PORT):80 -v $(HOST_INSTANCE_PATH):/kerkoapp/instance -v $(HOST_DEV_LOG):/dev/log $(IMAGE_NAME)
+
+run-tunnel: | .git build
+	docker compose up --env-file $(HOST_INSTANCE_PATH)/.env
 
 shell:
 	docker run --name $(CONTAINER_NAME) -it --rm -p $(HOST_PORT):80 -v $(HOST_INSTANCE_PATH):/kerkoapp/instance -v $(HOST_DEV_LOG):/dev/log $(IMAGE_NAME) bash
@@ -117,16 +122,16 @@ endif
 	@echo "[ERROR] This target must run from a clone of the KerkoApp Git repository."
 	@exit 1
 
-requirements/run.txt: requirements/run.in
+requirements/run.txt: | requirements/run.in
 	pip-compile --resolver=backtracking requirements/run.in
 
-requirements/docker.txt: requirements/run.txt requirements/docker.in
+requirements/docker.txt: | requirements/run.txt requirements/docker.in
 	pip-compile --resolver=backtracking requirements/docker.in
 
-requirements/dev.txt: requirements/run.txt requirements/dev.in
+requirements/dev.txt: | requirements/run.txt requirements/dev.in
 	pip-compile --allow-unsafe --resolver=backtracking requirements/dev.in
 
-requirements: requirements/run.txt requirements/docker.txt requirements/dev.txt
+requirements: | requirements/run.txt requirements/docker.txt requirements/dev.txt
 
 requirements-upgrade:
 	pre-commit autoupdate

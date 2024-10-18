@@ -4,13 +4,13 @@
 #
 #    pip-compile --allow-unsafe requirements/dev.in
 #
-babel==2.15.0
+babel==2.16.0
     # via
     #   -r requirements/run.txt
     #   flask-babel
     #   kerko
     #   mkdocs-material
-bibtexparser==1.4.1
+bibtexparser==1.4.2
     # via
     #   -r requirements/run.txt
     #   pyzotero
@@ -18,7 +18,7 @@ blinker==1.8.2
     # via
     #   -r requirements/run.txt
     #   flask
-bootstrap-flask==2.4.0
+bootstrap-flask==2.4.1
     # via
     #   -r requirements/run.txt
     #   kerko
@@ -26,7 +26,7 @@ build==1.2.1
     # via pip-tools
 cachetools==5.4.0
     # via tox
-certifi==2024.7.4
+certifi==2024.8.30
     # via
     #   -r requirements/run.txt
     #   requests
@@ -34,7 +34,7 @@ cfgv==3.4.0
     # via pre-commit
 chardet==5.2.0
     # via tox
-charset-normalizer==3.3.2
+charset-normalizer==3.4.0
     # via
     #   -r requirements/run.txt
     #   requests
@@ -86,7 +86,7 @@ ghp-import==2.1.0
     # via mkdocs
 identify==2.6.0
     # via pre-commit
-idna==3.7
+idna==3.10
     # via
     #   -r requirements/run.txt
     #   requests
@@ -108,7 +108,7 @@ jinja2==3.1.4
     #   mike
     #   mkdocs
     #   mkdocs-material
-kerko[dev,docs,tests] @ git+https://github.com/whiskyechobravo/kerko.git
+kerko[dev,docs,tests] @ git+https://github.com/admorelli/kerko.git
     # via
     #   -r requirements/dev.in
     #   -r requirements/run.txt
@@ -119,7 +119,7 @@ markdown==3.6
     #   mkdocs
     #   mkdocs-material
     #   pymdown-extensions
-markupsafe==2.1.5
+markupsafe==3.0.1
     # via
     #   -r requirements/run.txt
     #   jinja2
@@ -175,7 +175,7 @@ pycountry==24.6.1
     # via
     #   -r requirements/run.txt
     #   kerko
-pydantic==1.10.17
+pydantic==1.10.18
     # via
     #   -r requirements/run.txt
     #   kerko
@@ -183,7 +183,7 @@ pygments==2.18.0
     # via mkdocs-material
 pymdown-extensions==10.9
     # via mkdocs-material
-pyparsing==3.1.2
+pyparsing==3.2.0
     # via
     #   -r requirements/run.txt
     #   bibtexparser
@@ -202,7 +202,7 @@ python-dotenv==1.0.1
     #   kerko
 pytoolconfig[global]==1.3.1
     # via rope
-pytz==2024.1
+pytz==2024.2
     # via
     #   -r requirements/run.txt
     #   flask-babel
@@ -221,7 +221,7 @@ pyyaml-env-tag==0.1
     # via
     #   mike
     #   mkdocs
-pyzotero==1.5.20
+pyzotero==1.5.25
     # via
     #   -r requirements/run.txt
     #   kerko
@@ -245,11 +245,11 @@ sgmllib3k==1.0.0
     #   feedparser
 six==1.16.0
     # via python-dateutil
-tomli==2.0.1
+tomli==2.0.2
     # via
     #   -r requirements/run.txt
     #   kerko
-tomli-w==1.0.0
+tomli-w==1.1.0
     # via
     #   -r requirements/run.txt
     #   kerko
@@ -260,7 +260,7 @@ typing-extensions==4.12.2
     #   -r requirements/run.txt
     #   mypy
     #   pydantic
-urllib3==2.2.2
+urllib3==2.2.3
     # via
     #   -r requirements/run.txt
     #   requests
@@ -277,7 +277,7 @@ w3lib==2.2.1
     #   kerko
 watchdog==4.0.1
     # via mkdocs
-werkzeug==3.0.3
+werkzeug==3.0.4
     # via
     #   -r requirements/run.txt
     #   flask
@@ -304,5 +304,5 @@ zipp==3.19.2
 # The following packages are considered to be unsafe in a requirements file:
 pip==24.2
     # via pip-tools
-setuptools==72.1.0
+setuptools==75.2.0
     # via pip-tools

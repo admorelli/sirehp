@@ -1,0 +1,23 @@
+#to use trycloudflare comment out the enviroment key, the TUNNEL_TOKEN and the run under command.
+#then uncomment the --url
+#the subdomain where the site should be published will be on the make run-tunnel logs.
+version: "0.2"
+services:
+  sirehp:
+    container_name: sirehp
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./instance:/kerkoapp/instance
+      - ./instance/logs:/dev/log
+  tunnel:
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    command:
+      - tunnel
+      - run
+#example using trycloudflare
+#      - --url http://sirehp:80/bibliography
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}

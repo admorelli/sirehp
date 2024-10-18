@@ -1,8 +1,8 @@
 FROM python:3.11
 
-LABEL maintainer="kerko@whiskyechobravo.com" \
-      org.opencontainers.image.source="https://github.com/whiskyechobravo/kerkoapp" \
-      org.opencontainers.image.url="https://hub.docker.com/repository/docker/whiskyechobravo/kerkoapp"
+LABEL maintainer="admorelliribeiro@gmail.com" \
+      org.opencontainers.image.source="https://github.com/admorelli/sirehp" \
+      org.opencontainers.image.url="https://hub.docker.com/repository/docker/admorelli/sirehp"
 
 WORKDIR /kerkoapp
 COPY . /kerkoapp
