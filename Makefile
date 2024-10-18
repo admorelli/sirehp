@@ -53,7 +53,7 @@ run-dev: | $(DATA) $(SECRETS) $(CONFIG)
 	docker run --privileged --name $(CONTAINER_NAME) --rm -p $(HOST_PORT):80 -v $(HOST_INSTANCE_PATH):/kerkoapp/instance -v $(HOST_DEV_LOG):/dev/log $(IMAGE_NAME)
 
 run-tunnel: | .git build
-	docker compose up --env-file $(HOST_INSTANCE_PATH)/.env
+	docker compose up
 
 shell:
 	docker run --name $(CONTAINER_NAME) -it --rm -p $(HOST_PORT):80 -v $(HOST_INSTANCE_PATH):/kerkoapp/instance -v $(HOST_DEV_LOG):/dev/log $(IMAGE_NAME) bash
@@ -142,5 +142,8 @@ requirements-upgrade:
 
 upgrade: | requirements-upgrade
 	pip-sync requirements/dev.txt
+sync:
+	source ./venv/bin/activate;\
+	flask kerko sync;\
 
-.PHONY: help run shell clean_kerko publish build show_version clean_image requirements requirements-upgrade upgrade
+.PHONY: help run-dev run-tunnel shell clean_kerko publish build show_version clean_image requirements requirements-upgrade upgrade sync

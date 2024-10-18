@@ -14,10 +14,12 @@ services:
     container_name: cloudflared-tunnel
     image: cloudflare/cloudflared
     restart: unless-stopped
+    ports:
+      - "42031:8080"
     command:
       - tunnel
       - run
 #example using trycloudflare
 #      - --url http://sirehp:80/bibliography
-    environment:
-      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    env_file:
+      - "instance/.env"
