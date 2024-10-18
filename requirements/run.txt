@@ -49,7 +49,7 @@ jinja2==3.1.6
     #   flask
     #   flask-babel
     #   kerko
-kerko @ git+https://github.com/whiskyechobravo/kerko.git
+kerko @ git+https://github.com/admorelli/kerko.git
     # via -r requirements/run.in
 markupsafe==3.0.2
     # via
@@ -72,7 +72,7 @@ pytz==2025.2
     #   flask-babel
     #   kerko
     #   pyzotero
-pyzotero==1.5.20
+pyzotero==1.5.25
     # via kerko
 requests==2.32.3
     # via pyzotero
