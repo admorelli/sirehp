@@ -1,0 +1,14 @@
+{% extends "kerko/layout.html.jinja2" %}
+
+{%- block styles %}
+{{- super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sirehp.css') }}">
+{%- endblock styles %}
+
+{%- block navbar_toggler %}
+  <a href="{{ url_for('kerko.search') }}" class="navbar-brand">
+    <img src="{{ url_for('static', filename='images/Logo-branca-Sirehp-150x150.jpg') }}" width="40" height="40" class="d-inline-block align-top" alt="">
+    {{ config.kerko.meta.title }}
+  </a>
+  {{- super() }}
+{%- endblock navbar_toggler %}
