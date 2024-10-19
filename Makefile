@@ -1,5 +1,4 @@
 # This Makefile contains targets for building and running the KerkoApp Docker image.
-
 # Change NAME if you wish to build your own image.
 IMAGE_NAME := admorelli/sirehp
 
@@ -13,6 +12,13 @@ SECRETS := $(HOST_INSTANCE_PATH)/.secrets.toml
 CONFIG := $(HOST_INSTANCE_PATH)/config.toml
 DATA := $(HOST_INSTANCE_PATH)/kerko/index
 
+VENV = venv
+VENV_BIN = $(VENV)/bin
+REQUIREMENTS_TXT = requirements/run.txt
+PYTHON = $(VENV_BIN)/python3
+PIP = $(VENV_BIN)/pip
+FLASK = $(VENV_BIN)/flask
+
 #
 # Running targets.
 #
@@ -21,7 +27,7 @@ DATA := $(HOST_INSTANCE_PATH)/kerko/index
 
 help:
 	@echo "Commands for using SireHP with Docker:"
-	@echo "    make build"
+	@echo "    make build_image"
 	@echo "        Build a SireHP Docker image locally."
 	@echo "    make clean_image"
 	@echo "        Remove the SireHP Docker image."
@@ -30,9 +36,11 @@ help:
 	@echo "    make publish"
 	@echo "        Publish the SireHP Docker image on DockerHub."
 	@echo "    make run-dev"
-	@echo "        Run SireHP with Docker."
-	@echo "    make run-tunnel"
+	@echo "        Run SireHP from venv."
+	@echo "    make run"
 	@echo "        Run SireHP on the web with Docker Compose."
+	@echo "    make daemon"
+	@echo "        Run SireHP on the web with Docker Compose as a daemon."
 	@echo "    make shell"
 	@echo "        Start an interactive shell within the KerkoApp Docker container."
 	@echo "    make show_version"
@@ -49,21 +57,23 @@ help:
 # hence the use of the --privileged option below. For production use, you may want to verify whether
 # this option is really required for your system, or grant finer grained privileges. See
 # https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
-run-dev: | $(DATA) $(SECRETS) $(CONFIG)
-	docker run --privileged --name $(CONTAINER_NAME) --rm -p $(HOST_PORT):80 -v $(HOST_INSTANCE_PATH):/kerkoapp/instance -v $(HOST_DEV_LOG):/dev/log $(IMAGE_NAME)
-
-run-tunnel: | .git build
+run: | $(DATA) $(SECRETS) $(CONFIG)
 	docker compose up
 
-shell:
-	docker run --name $(CONTAINER_NAME) -it --rm -p $(HOST_PORT):80 -v $(HOST_INSTANCE_PATH):/kerkoapp/instance -v $(HOST_DEV_LOG):/dev/log $(IMAGE_NAME) bash
+run-dev: | $(VENV)/bin/activate $(DATA) $(SECRETS) $(CONFIG)
+	$(FLASK) run
+
+daemon: | $(DATA) $(SECRETS) $(CONFIG)
+	docker compose up -d
+
+shell_kerko:
+	docker compose exec -ti $(CONTAINER_NAME) /bin/bash
 
 clean_kerko: | $(SECRETS) $(CONFIG)
-	docker run --name $(CONTAINER_NAME) --rm -p $(HOST_PORT):80 -v $(HOST_INSTANCE_PATH):/kerkoapp/instance -v $(HOST_DEV_LOG):/dev/log $(IMAGE_NAME) flask kerko clean everything
+	docker compose exec -t $(CONTAINER_NAME) flask kerko clean everything
 
-$(DATA): | $(SECRETS) $(CONFIG)
+$(DATA): | $(SECRETS) $(CONFIG) sync
 	@echo "[INFO] It looks like you have not run the 'flask kerko sync' command. Running it for you now!"
-	docker run --name $(CONTAINER_NAME) --rm -p $(HOST_PORT):80 -v $(HOST_INSTANCE_PATH):/kerkoapp/instance -v $(HOST_DEV_LOG):/dev/log $(IMAGE_NAME) flask kerko sync
 
 $(SECRETS):
 	@echo "[ERROR] You must create '$(SECRETS)'."
@@ -82,7 +92,7 @@ $(CONFIG):
 HASH = $(shell git rev-parse HEAD 2>/dev/null)
 VERSION = $(shell git describe --exact-match --tags HEAD 2>/dev/null)
 
-publish: | .git build
+publish: | .git build-image
 ifneq ($(shell git status --porcelain 2> /dev/null),)
 	@echo "[ERROR] The Git working directory has uncommitted changes."
 	@exit 1
@@ -97,12 +107,15 @@ else
 	@exit 1
 endif
 
-build: | .git
+build_image: | .git
 ifeq ($(findstring .,$(VERSION)),.)
 	docker build -t $(IMAGE_NAME) --no-cache --label "org.opencontainers.image.version=$(VERSION)" --label "org.opencontainers.image.created=$(shell date --rfc-3339=seconds)" $(MAKEFILE_DIR)
 else
 	docker build -t $(IMAGE_NAME) --no-cache --label "org.opencontainers.image.revision=$(HASH)" --label "org.opencontainers.image.created=$(shell date --rfc-3339=seconds)" $(MAKEFILE_DIR)
 endif
+
+build_container: | .git build_image
+	docker container build --no-cache
 
 show_version: | .git
 ifeq ($(findstring .,$(VERSION)),.)
@@ -122,28 +135,23 @@ endif
 	@echo "[ERROR] This target must run from a clone of the KerkoApp Git repository."
 	@exit 1
 
-requirements/run.txt: | requirements/run.in
-	pip-compile --resolver=backtracking requirements/run.in
+requirements-upgrade: | $(VENV)/bin/activate upgrade
+	$(VENV_BIN)/pre-commit autoupdate
+	$(PIP) install --upgrade pip pip-tools
+	$(PIP)-compile --upgrade --resolver=backtracking --rebuild requirements/run.in
+	$(PIP)-compile --upgrade --resolver=backtracking --rebuild requirements/docker.in
+	$(PIP)-compile --upgrade --allow-unsafe --resolver=backtracking --rebuild requirements/dev.in
 
-requirements/docker.txt: | requirements/run.txt requirements/docker.in
-	pip-compile --resolver=backtracking requirements/docker.in
+upgrade:
+	$(PIP)-sync requirements/dev.txt
+update:
+	$(PIP) install -r requirements/dev.txt
+sync: | $(VENV)/bin/activate $(SECRETS) $(CONFIG) update
+	$(FLASK) --debug kerko sync
 
-requirements/dev.txt: | requirements/run.txt requirements/dev.in
-	pip-compile --allow-unsafe --resolver=backtracking requirements/dev.in
+$(VENV)/bin/activate: $(REQUIREMENTS_TXT)
+	python3 -m venv ./venv
+	$(PIP) install -r $(REQUIREMENTS_TXT)
 
-requirements: | requirements/run.txt requirements/docker.txt requirements/dev.txt
 
-requirements-upgrade:
-	pre-commit autoupdate
-	pip install --upgrade pip pip-tools
-	pip-compile --upgrade --resolver=backtracking --rebuild requirements/run.in
-	pip-compile --upgrade --resolver=backtracking --rebuild requirements/docker.in
-	pip-compile --upgrade --allow-unsafe --resolver=backtracking --rebuild requirements/dev.in
-
-upgrade: | requirements-upgrade
-	pip-sync requirements/dev.txt
-sync:
-	source ./venv/bin/activate;\
-	flask kerko sync;\
-
-.PHONY: help run-dev run-tunnel shell clean_kerko publish build show_version clean_image requirements requirements-upgrade upgrade sync
+.PHONY: help run-dev run daemon shell clean_kerko publish build_image show_version clean_image requirements requirements-upgrade upgrade sync

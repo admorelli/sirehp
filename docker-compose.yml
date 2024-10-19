@@ -1,4 +1,4 @@
-#to use trycloudflare comment out the enviroment key, the TUNNEL_TOKEN and the run under command.
+#to use trycloudflare comment out the env-file group and the run under command.
 #then uncomment the --url
 #the subdomain where the site should be published will be on the make run-tunnel logs.
 version: "0.2"
@@ -14,12 +14,8 @@ services:
     container_name: cloudflared-tunnel
     image: cloudflare/cloudflared
     restart: unless-stopped
-    ports:
-      - "42031:8080"
-    command:
-      - tunnel
-      - run
-#example using trycloudflare
-#      - --url http://sirehp:80/bibliography
+    command: tunnel run
+    #example using trycloudflare
+    #command: tunnel --url http://sirehp:80
     env_file:
       - "instance/.env"
