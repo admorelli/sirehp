@@ -1,7 +1,6 @@
 #to use trycloudflare comment out the env-file group and the run under command.
 #then uncomment the --url
 #the subdomain where the site should be published will be on the make run-tunnel logs.
-version: "0.2"
 services:
   sirehp:
     container_name: sirehp

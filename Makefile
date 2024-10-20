@@ -32,21 +32,23 @@ help:
 	@echo "        Build a SireHP Docker image locally."
 	@echo "    make clean_image"
 	@echo "        Remove the SireHP Docker image."
-	@echo "    make clean_kerko"
-	@echo "        Run the 'kerko clean' command from within the KerkoApp Docker container."
-	@echo "    make publish"
-	@echo "        Publish the SireHP Docker image on DockerHub."
-	@echo "    make run-dev"
-	@echo "        Run SireHP from venv."
-	@echo "    make run"
-	@echo "        Run SireHP on the web with Docker Compose."
-	@echo "    make daemon"
-	@echo "        Run SireHP on the web with Docker Compose as a daemon."
 	@echo "    make shell"
 	@echo "        Start an interactive shell within the KerkoApp Docker container."
 	@echo "    make show_version"
 	@echo "        Print the version that would be used if the KerkoApp Docker image was to be built."
 	@echo "\nCommands related to KerkoApp development:"
+	@echo "    make publish"
+	@echo "        Publish the SireHP Docker image on DockerHub."
+	@echo "    make build_container"
+	@echo "        Build a SireHP Docker container."
+	@echo "    make run"
+	@echo "        Run SireHP on the web with Docker Compose."
+	@echo "    make daemon"
+	@echo "        Run SireHP on the web with Docker Compose as a daemon."
+	@echo "    make clean_kerko"
+	@echo "        Run the 'kerko clean' command from within the KerkoApp Docker container."
+	@echo "    make run-dev"
+	@echo "        Run SireHP from venv."
 	@echo "    make requirements"
 	@echo "        Pin the versions of Python dependencies in requirements files."
 	@echo "    make requirements-upgrade"
@@ -58,14 +60,17 @@ help:
 # hence the use of the --privileged option below. For production use, you may want to verify whether
 # this option is really required for your system, or grant finer grained privileges. See
 # https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
-run: | $(DATA) $(SECRETS) $(CONFIG)
+run: | $(DATA) $(SECRETS) $(CONFIG) stop
 	docker compose up
 
 run-dev: | $(VENV)/bin/activate $(DATA) $(SECRETS) $(CONFIG)
 	$(FLASK) run
 
-daemon: | $(DATA) $(SECRETS) $(CONFIG)
+daemon: | $(DATA) $(SECRETS) $(CONFIG) stop
 	docker compose up -d
+
+stop:
+	docker compose down
 
 shell_kerko:
 	docker compose exec -ti $(CONTAINER_NAME) /bin/bash
@@ -73,8 +78,9 @@ shell_kerko:
 clean_kerko: | $(SECRETS) $(CONFIG)
 	docker compose exec -t $(CONTAINER_NAME) flask kerko clean everything
 
-$(DATA): | $(SECRETS) $(CONFIG) sync
+$(DATA): | $(SECRETS) $(CONFIG)
 	@echo "[INFO] It looks like you have not run the 'flask kerko sync' command. Running it for you now!"
+	$(MAKE) sync
 
 $(SECRETS):
 	@echo "[ERROR] You must create '$(SECRETS)'."
@@ -93,7 +99,7 @@ $(CONFIG):
 HASH = $(shell git rev-parse HEAD 2>/dev/null)
 VERSION = $(shell git describe --exact-match --tags HEAD 2>/dev/null)
 
-publish: | .git build-image
+publish: | .git build_image
 ifneq ($(shell git status --porcelain 2> /dev/null),)
 	@echo "[ERROR] The Git working directory has uncommitted changes."
 	@exit 1
@@ -116,7 +122,7 @@ else
 endif
 
 build_container: | .git build_image
-	docker container build --no-cache
+	docker compose build --no-cache
 
 show_version: | .git
 ifeq ($(findstring .,$(VERSION)),.)
@@ -155,4 +161,4 @@ $(VENV)/bin/activate: $(REQUIREMENTS_TXT)
 	$(PIP) install -r $(REQUIREMENTS_TXT)
 
 
-.PHONY: help run-dev run daemon shell clean_kerko publish build_image show_version clean_image requirements requirements-upgrade upgrade sync
+.PHONY: help run-dev run daemon shell clean_kerko publish build_image build_container stop show_version clean_image requirements requirements-upgrade upgrade update sync
