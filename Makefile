@@ -69,7 +69,7 @@ daemon: | $(DATA) $(SECRETS) $(CONFIG) stop
 	docker compose up -d
 
 stop:
-	docker compose down
+	docker compose down --remove
 
 shell_kerko:
 	docker compose exec -ti $(CONTAINER_NAME) /bin/bash
