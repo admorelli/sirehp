@@ -98,7 +98,7 @@ $(CONFIG):
 HASH = $(shell git rev-parse HEAD 2>/dev/null)
 VERSION = $(shell git describe --exact-match --tags HEAD 2>/dev/null)
 
-publish: | .git build_image
+publish: | build_image .git
 ifneq ($(shell git status --porcelain 2> /dev/null),)
 	@echo "[ERROR] The Git working directory has uncommitted changes."
 	@exit 1
