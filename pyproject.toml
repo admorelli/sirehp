@@ -1,8 +1,8 @@
 [project]
-name = "KerkoApp"
+name = "SireHP"
 description = "A web application that provides a faceted search interface for bibliographies based on Zotero."
 authors = [
-    {name = "David Lesieur", email="kerko@whiskyechobravo.com"},
+    {name = "Allan Ribeiro", email="admorelliribeiro@gmail.com"},
 ]
 requires-python = ">= 3.9"
 
