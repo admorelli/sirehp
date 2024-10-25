@@ -1,7 +1,7 @@
 # This Makefile contains targets for building and running the KerkoApp Docker image.
 
 # Change NAME if you wish to build your own image.
-IMAGE_NAME := admorelli/sirehp
+IMAGE_NAME := allfa/sirehp
 
 CONTAINER_NAME := sirehp
 MAKEFILE_DIR := $(dir $(CURDIR)/$(lastword $(MAKEFILE_LIST)))
@@ -70,7 +70,7 @@ daemon: | $(DATA) $(SECRETS) $(CONFIG) stop
 	docker compose up -d
 
 stop:
-	docker compose down --remove
+	docker compose down
 
 shell_kerko:
 	docker compose exec -ti $(CONTAINER_NAME) /bin/bash
@@ -153,8 +153,8 @@ upgrade:
 	$(PIP)-sync requirements/dev.txt
 update:
 	$(PIP) install -r requirements/dev.txt
-sync: | $(VENV)/bin/activate $(SECRETS) $(CONFIG) update
-	$(FLASK) --debug kerko sync
+sync: | daemon
+	docker compose exec $(CONTAINER_NAME) flask --debug kerko sync
 
 $(VENV)/bin/activate: $(REQUIREMENTS_TXT)
 	python3 -m venv ./venv
