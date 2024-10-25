@@ -4,7 +4,7 @@
 services:
   sirehp:
     container_name: sirehp
-    build: .
+    build: allfa/sirehp
     restart: unless-stopped
     volumes:
       - ./instance:/kerkoapp/instance

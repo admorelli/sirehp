@@ -1,12 +1,13 @@
-FROM python:3.11
+FROM python:alpine
 
 LABEL maintainer="admorelliribeiro@gmail.com" \
       org.opencontainers.image.source="https://github.com/admorelli/sirehp" \
-      org.opencontainers.image.url="https://hub.docker.com/repository/docker/admorelli/sirehp"
+      org.opencontainers.image.url="https://hub.docker.com/repository/docker/allfa/sirehp"
 
 WORKDIR /kerkoapp
 COPY . /kerkoapp
 
+RUN apk add --no-cache git
 RUN pip install --no-cache-dir --trusted-host pypi.python.org -r /kerkoapp/requirements/docker.txt
 RUN for LOCALE in $(find kerkoapp/translations/* -maxdepth 0 -type d -exec basename "{}" \;); do pybabel compile -l $LOCALE -d kerkoapp/translations; done
 
