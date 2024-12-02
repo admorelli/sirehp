@@ -65,3 +65,4 @@ instance.toml
 # Application data.
 /data
 /instance
+/sirehp.zip

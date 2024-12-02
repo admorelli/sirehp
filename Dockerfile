@@ -7,7 +7,7 @@ LABEL maintainer="admorelliribeiro@gmail.com" \
 WORKDIR /kerkoapp
 COPY . /kerkoapp
 
-RUN apk add --no-cache git crond
+RUN apk add --no-cache git apk-cron
 RUN echo "0 0 * * * /usr/bin/sync" > /etc/crontabs/root
 RUN printf "#!/bin/sh\nflask kerko sync" > /usr/bin/sync
 RUN pip install --no-cache-dir --trusted-host pypi.python.org -r /kerkoapp/requirements/docker.txt
