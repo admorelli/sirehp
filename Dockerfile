@@ -10,6 +10,7 @@ COPY . /kerkoapp
 RUN apk add --no-cache git apk-cron
 RUN echo "0 0 * * * /usr/bin/sync" > /etc/crontabs/root
 RUN printf "#!/bin/sh\nflask kerko sync" > /usr/bin/sync
+RUN chmod +x /usr/bin/sync
 RUN pip install --no-cache-dir --trusted-host pypi.python.org -r /kerkoapp/requirements/docker.txt
 RUN for LOCALE in $(find kerkoapp/translations/* -maxdepth 0 -type d -exec basename "{}" \;); do pybabel compile -l $LOCALE -d kerkoapp/translations; done
 

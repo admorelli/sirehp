@@ -120,8 +120,8 @@ else
 	docker build -t $(IMAGE_NAME) --no-cache --label "org.opencontainers.image.revision=$(HASH)" --label "org.opencontainers.image.created=$(shell date --rfc-3339=seconds)" $(MAKEFILE_DIR)
 endif
 
-build_container: | .git build_image
-	docker compose build --no-cache
+build_container: | .git
+	docker compose build --no-cache --pull
 
 show_version: | .git
 ifeq ($(findstring .,$(VERSION)),.)
