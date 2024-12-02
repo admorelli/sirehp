@@ -40,6 +40,8 @@ help:
 	@echo "        Publish the SireHP Docker image on DockerHub."
 	@echo "    make build_container"
 	@echo "        Build a SireHP Docker container."
+	@echo "    make build_image"
+	@echo "        Build Docker Image"
 	@echo "    make run"
 	@echo "        Run SireHP on the web with Docker Compose."
 	@echo "    make daemon"
