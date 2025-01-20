@@ -20,6 +20,9 @@ certifi==2024.12.14
     # via
     #   httpcore
     #   httpx
+    #   requests
+charset-normalizer==3.4.1
+    # via requests
 click==8.1.8
     # via
     #   flask
@@ -48,6 +51,7 @@ idna==3.10
     # via
     #   anyio
     #   httpx
+    #   requests
 itsdangerous==2.2.0
     # via
     #   flask
@@ -79,6 +83,8 @@ pytz==2024.2
     #   pyzotero
 pyzotero==1.6.4
     # via kerko
+requests==2.32.3
+    # via kerko
 sgmllib3k==1.0.0
     # via feedparser
 sniffio==1.3.1
@@ -91,6 +97,8 @@ typing-extensions==4.12.2
     # via
     #   anyio
     #   pydantic
+urllib3==2.3.0
+    # via requests
 w3lib==2.2.1
     # via kerko
 werkzeug==3.1.3

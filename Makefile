@@ -146,9 +146,9 @@ endif
 requirements-upgrade: | $(VENV)/bin/activate upgrade
 	$(VENV_BIN)/pre-commit autoupdate
 	$(PIP) install --upgrade pip pip-tools
-	$(PIP)-compile --upgrade --resolver=backtracking --rebuild requirements/run.in
-	$(PIP)-compile --upgrade --resolver=backtracking --rebuild requirements/docker.in
-	$(PIP)-compile --upgrade --allow-unsafe --resolver=backtracking --rebuild requirements/dev.in
+	$(PIP)-compile --upgrade --resolver=backtracking --rebuild requirements/run.in -o requirements/run.txt
+	$(PIP)-compile --upgrade --resolver=backtracking --rebuild requirements/docker.in -o requirements/docker.txt
+	$(PIP)-compile --upgrade --allow-unsafe --resolver=backtracking --rebuild requirements/dev.in -o requirements/dev.txt
 
 upgrade:
 	$(PIP)-sync requirements/dev.txt

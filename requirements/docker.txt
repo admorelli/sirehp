@@ -30,6 +30,11 @@ certifi==2024.12.14
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   httpcore
     #   httpx
+    #   requests
+charset-normalizer==3.4.1
+    # via
+    #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
+    #   requests
 click==8.1.8
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
@@ -58,7 +63,7 @@ flask-wtf==1.2.2
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   kerko
-gunicorn==22.0.0
+gunicorn==23.0.0
     # via -r requirements/docker.in
 h11==0.14.0
     # via
@@ -77,6 +82,7 @@ idna==3.10
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   anyio
     #   httpx
+    #   requests
 itsdangerous==2.2.0
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
@@ -96,7 +102,7 @@ markupsafe==3.0.2
     #   jinja2
     #   werkzeug
     #   wtforms
-packaging==24.1
+packaging==24.2
     # via gunicorn
 pycountry==24.6.1
     # via
@@ -124,6 +130,10 @@ pyzotero==1.6.4
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   kerko
+requests==2.32.3
+    # via
+    #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
+    #   kerko
 sgmllib3k==1.0.0
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
@@ -145,6 +155,10 @@ typing-extensions==4.12.2
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   anyio
     #   pydantic
+urllib3==2.3.0
+    # via
+    #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
+    #   requests
 w3lib==2.2.1
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
