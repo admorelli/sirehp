@@ -8,7 +8,7 @@ anyio==4.8.0
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   httpx
-babel==2.16.0
+babel==2.17.0
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   flask-babel
@@ -25,7 +25,7 @@ bootstrap-flask==2.4.1
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   kerko
-certifi==2024.12.14
+certifi==2025.1.31
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   httpcore
@@ -88,7 +88,7 @@ itsdangerous==2.2.0
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   flask
     #   flask-wtf
-jinja2==3.1.5
+jinja2==3.1.6
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   flask
@@ -120,13 +120,13 @@ python-dotenv==1.0.1
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   kerko
-pytz==2024.2
+pytz==2025.1
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   flask-babel
     #   kerko
     #   pyzotero
-pyzotero==1.6.4
+pyzotero==1.6.9
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   kerko
@@ -159,7 +159,7 @@ urllib3==2.3.0
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   requests
-w3lib==2.2.1
+w3lib==2.3.1
     # via
     #   -r /mnt/c/Users/admor/PycharmProjects/sirehp/requirements/run.txt
     #   kerko
