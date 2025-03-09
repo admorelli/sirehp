@@ -234,7 +234,7 @@ pyyaml-env-tag==1.1
     # via
     #   mike
     #   mkdocs
-pyzotero==1.6.4
+pyzotero==1.6.9
     # via
     #   -r requirements/run.txt
     #   kerko
