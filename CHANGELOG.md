@@ -119,7 +119,7 @@ Other changes:
 - Restructure and expand documentation into a unified documentation site for
   both Kerko and KerkoApp.
 - Add Portuguese translation. Thanks to Gonçalo Cordeiro.
-- Update the pinned versions of dependencies.
+- Update the versions of pinned dependencies.
 
 Backwards incompatible changes:
 
@@ -242,10 +242,10 @@ Changes:
   `KERKO_RESULTS_ABSTRACTS` (note the now plural form) and
   `KERKO_RESULTS_ABSTRACTS_TOGGLER`.
 - The following environment variable names are deprecated:
-    - `KERKOAPP_TAG_WHITELIST_RE` (replaced by `KERKOAPP_TAG_INCLUDE_RE`)
-    - `KERKOAPP_TAG_BLACKLIST_RE` (replaced by `KERKOAPP_TAG_EXCLUDE_RE`)
-    - `KERKOAPP_CHILD_WHITELIST_RE` (replaced by `KERKOAPP_CHILD_INCLUDE_RE`)
-    - `KERKOAPP_CHILD_BLACKLIST_RE` (replaced by `KERKOAPP_CHILD_EXCLUDE_RE`)
+  - `KERKOAPP_TAG_WHITELIST_RE` (replaced by `KERKOAPP_TAG_INCLUDE_RE`)
+  - `KERKOAPP_TAG_BLACKLIST_RE` (replaced by `KERKOAPP_TAG_EXCLUDE_RE`)
+  - `KERKOAPP_CHILD_WHITELIST_RE` (replaced by `KERKOAPP_CHILD_INCLUDE_RE`)
+  - `KERKOAPP_CHILD_BLACKLIST_RE` (replaced by `KERKOAPP_CHILD_EXCLUDE_RE`)
 - Add environment variables `KERKOAPP_ITEM_INCLUDE_RE`,
   `KERKOAPP_ITEM_EXCLUDE_RE`, and `BABEL_DEFAULT_TIMEZONE`.
 - Add German translation. Thanks to [@mmoole](https://github.com/mmoole).
@@ -280,7 +280,7 @@ Changes:
 - Read new Kerko configuration variables from the environment.
 - Deprecate abandoned environment variables.
 - Use new Kerko template name configuration variables.
-- Update the pinned versions of dependencies.
+- Update versions of pinned dependencies.
 - Improve documentation of configuration variables.
 
 ## 0.4 (2019-09-28)
@@ -289,7 +289,7 @@ Changes:
 
 - Upgrade Kerko to version
   [0.4](https://github.com/whiskyechobravo/kerko/blob/master/CHANGELOG.md#04-2019-09-28).
-- Update the pinned versions of dependencies.
+- Update versions of pinned dependencies.
 - Improve documentation.
 
 ## 0.3 (2019-07-29)
