@@ -1,0 +1,2 @@
+#!/bin/sh
+gunicorn --threads 4 --log-level info --error-logfile - --access-logfile - --worker-tmp-dir /dev/shm --graceful-timeout 120 --timeout 120 --keep-alive 5 --bind 0.0.0.0:80 wsgi:app

@@ -1,0 +1,1 @@
+0 0 * * * /usr/bin/sync >> /dev/log/cron.log
