@@ -156,17 +156,17 @@ endif
 	@echo "[ERROR] This target must run from a clone of the KerkoApp Git repository."
 	@exit 1
 
-requirements/run.txt: | $(PIP) requirements/run.in
+requirements/run.txt: requirements/run.in
 	$(PIP)-compile --resolver=backtracking requirements/run.in -o requirements/run.txt
 
-requirements/docker.txt: | $(PIP) requirements/run.txt requirements/docker.in
+requirements/docker.txt: requirements/run.txt requirements/docker.in
 	$(PIP)-compile --resolver=backtracking requirements/docker.in -o requirements/docker.txt
 
-requirements/dev.txt: | $(PIP) requirements/run.txt requirements/dev.in
+requirements/dev.txt: requirements/run.txt requirements/dev.in
 	$(PIP)-compile --allow-unsafe --resolver=backtracking requirements/dev.in -o requirements/dev.txt
 
 .PHONY: requirements
-requirements: | requirements/run.txt requirements/docker.txt requirements/dev.txt
+requirements: requirements/run.txt requirements/docker.txt requirements/dev.txt
 
 .PHONY: requirements-upgrade upgrade
 requirements-upgrade: | $(VENV)/bin/activate upgrade
