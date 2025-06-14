@@ -30,5 +30,5 @@ RUN for LOCALE in $(find kerkoapp/translations/* -maxdepth 0 -type d -exec basen
       pybabel compile -l $LOCALE -d kerkoapp/translations; \
     done
 
-#ENTRYPOINT ["/usr/bin/start"]
+ENTRYPOINT ["/usr/bin/start"]
 CMD ["kerko"]
