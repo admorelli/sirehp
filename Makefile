@@ -81,7 +81,7 @@ stop:
 
 .PHONY: shell_kerko
 shell_kerko:
-	docker compose exec -ti $(CONTAINER_NAME) /bin/bash
+	docker compose exec -ti $(CONTAINER_NAME) /bin/ash
 
 .PHONY: clean_kerko
 clean_kerko: | $(SECRETS) $(CONFIG)
