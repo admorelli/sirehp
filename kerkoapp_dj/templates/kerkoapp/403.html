@@ -1,0 +1,7 @@
+{% load i18n %}
+{% trans "Access denied" as title %}
+{% extends config.kerko.templates.layout %}
+
+{% block content_inner %}
+    <p>{% trans "Access to the required page is not authorized." %}</p>
+{% endblock %}

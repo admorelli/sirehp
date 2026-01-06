@@ -1,0 +1,9 @@
+{% load i18n %}
+{% trans "Page not found" as title %}
+{% url 'kerko:search' as search_url %}
+{% extends config.kerko.templates.layout %}
+
+{% block content_inner %}
+    <p>{% trans "The required page does not exists or has moved." %}</p>
+    {% blocktrans with url=search_url %}You might want to use our <a href="{{ url }}">search engine</a> to try finding the desired resource.{% endblocktrans %}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% load i18n %}
+{% trans "Service unavailable" as title %}
+{% extends config.kerko.templates.layout %}
+
+{% block content_inner %}
+    <p>{% trans "The service is temporarily unavailable. Please try again later." %}</p>
+{% endblock %}

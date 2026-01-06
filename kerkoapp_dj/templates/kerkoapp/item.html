@@ -1,0 +1,15 @@
+{% load static %}
+{% extends "kerko/layout.html" %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/sirehp.css' %}">
+{% endblock %}
+
+{% block navbar_toggler %}
+  <a href="{% url 'kerko:search' %}" class="navbar-brand">
+    <img src="{% static 'images/Logo-branca-Sirehp-150x150.jpg' %}" width="40" height="40" class="d-inline-block align-top" alt="">
+    {{ config.kerko.meta.title }}
+  </a>
+  {{ block.super }}
+{% endblock %}
